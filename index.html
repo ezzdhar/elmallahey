@@ -340,10 +340,12 @@
         <div class="f-group">
           <label for="nm" data-i18n="f_name">الاسم الكامل</label>
           <input id="nm" required data-ph="f_name_p" placeholder="أدخل اسمك هنا">
+          <div class="f-error" id="nmError" role="alert"></div>
         </div>
         <div class="f-group">
           <label for="em" data-i18n="f_mail">البريد الإلكتروني</label>
-          <input id="em" type="email" required data-ph="f_mail_p" placeholder="example@company.com" dir="ltr">
+          <input id="em" type="email" required data-ph="f_mail_p" placeholder="أدخل بريدك الإلكتروني هنا" dir="auto">
+          <div class="f-error" id="emError" role="alert"></div>
         </div>
         <div class="f-group">
           <label for="tp" data-i18n="f_subject">الموضوع</label>
@@ -356,10 +358,12 @@
             <option data-i18n="c_yard">ساحة الحاويات</option>
             <option data-i18n="f_other">أخرى</option>
           </select>
+          <div class="f-error" id="tpError" role="alert"></div>
         </div>
         <div class="f-group">
           <label for="ms" data-i18n="f_msg">الرسالة</label>
           <textarea id="ms" required data-ph="f_msg_p" placeholder="اكتب رسالتك هنا..."></textarea>
+          <div class="f-error" id="msError" role="alert"></div>
         </div>
         <button class="btn btn-o btn-submit" type="submit" data-i18n="f_btn">إرسال الرسالة</button>
         <div class="ok" id="okMsg" role="status" data-i18n="f_ok">تم إرسال رسالتك بنجاح. سنتواصل معك قريبًا.</div>
@@ -374,40 +378,40 @@
 
       <div class="contact-rows">
         <div class="contact-row">
-          <div class="contact-row-text">
-            <b data-i18n="ci_phone">الهاتف</b>
-            <span dir="ltr">+201 080 724 756</span>
-          </div>
           <div class="contact-row-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
           </div>
+          <div class="contact-row-text">
+            <b data-i18n="ci_phone">الهاتف</b>
+            <span dir="ltr">+20 10 09260444</span>
+          </div>
         </div>
 
         <div class="contact-row">
-          <div class="contact-row-text">
-            <b data-i18n="ci_mail">البريد الإلكتروني</b>
-            <span>user@gmail.com</span>
-          </div>
           <div class="contact-row-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="4" width="20" height="16" rx="2"/>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
           </div>
+          <div class="contact-row-text">
+            <b data-i18n="ci_mail">البريد الإلكتروني</b>
+            <span>user@gmail.com</span>
+          </div>
         </div>
 
         <div class="contact-row">
-          <div class="contact-row-text">
-            <b data-i18n="ci_addr">العنوان</b>
-            <span data-i18n="ci_addr_v">دمياط ، مدينة دمياط الجديدة ، شارع الاستاد</span>
-          </div>
           <div class="contact-row-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
               <circle cx="12" cy="10" r="3"/>
             </svg>
+          </div>
+          <div class="contact-row-text">
+            <b data-i18n="ci_addr">العنوان</b>
+            <span data-i18n="ci_addr_v">دمياط ، مدينة دمياط الجديدة ، شارع الاستاد</span>
           </div>
         </div>
       </div>
@@ -472,7 +476,7 @@
         <h4 data-i18n="n_contact">تواصل معنا</h4>
         <ul>
           <li data-i18n="ci_addr_v">دمياط , دمياط الجديدة , شارع الاستاد</li>
-          <li dir="ltr">+201 080 724 756</li>
+          <li dir="ltr">+20 10 09260444</li>
           <li>user@gmail.com</li>
         </ul>
       </div>
@@ -552,7 +556,7 @@ const translations = {
     f_name: "الاسم الكامل",
     f_name_p: "أدخل اسمك هنا",
     f_mail: "البريد الإلكتروني",
-    f_mail_p: "example@company.com",
+    f_mail_p: "أدخل بريدك الإلكتروني هنا",
     f_subject: "الموضوع",
     f_type: "اختر نوع الاستفسار",
     f_other: "أخرى",
@@ -560,6 +564,11 @@ const translations = {
     f_msg_p: "اكتب رسالتك هنا...",
     f_btn: "إرسال الرسالة",
     f_ok: "تم إرسال رسالتك بنجاح. سنتواصل معك قريبًا.",
+    val_email_req: "يرجى إدخال البريد الإلكتروني.",
+    val_email_inv: "يرجى إدخال بريد إلكتروني صالح (مثال: example@domain.com).",
+    val_name_req: "يرجى إدخال الاسم الكامل.",
+    val_type_req: "يرجى اختيار نوع الاستفسار.",
+    val_msg_req: "يرجى كتابة رسالتك هنا.",
     ft_tag: "حلول شحن متكاملة من الميناء إلى وجهتك بأمان واحترافية.",
     ft_links: "روابط سريعة",
     copy: "© 2026 مؤسسة الملاحي. جميع الحقوق محفوظة."
@@ -631,7 +640,7 @@ const translations = {
     f_name: "Full Name",
     f_name_p: "Enter your name here",
     f_mail: "Email",
-    f_mail_p: "example@company.com",
+    f_mail_p: "Enter your email here",
     f_subject: "Subject",
     f_type: "Select the type of inquiry",
     f_other: "Other",
@@ -639,6 +648,11 @@ const translations = {
     f_msg_p: "Write your message here...",
     f_btn: "Send Message",
     f_ok: "Your message has been sent successfully. We will contact you soon.",
+    val_email_req: "Please enter your email address.",
+    val_email_inv: "Please enter a valid email address (e.g. example@domain.com).",
+    val_name_req: "Please enter your full name.",
+    val_type_req: "Please select the type of inquiry.",
+    val_msg_req: "Please write your message here.",
     ft_tag: "Integrated freight solutions connecting ports to destinations safely.",
     ft_links: "Quick Links",
     copy: "© 2026 El Mallahey Logistics. All rights reserved."
@@ -689,10 +703,124 @@ function applyLanguage(lang) {
   const langLabel = document.getElementById('langLabel');
   if (langLabel) langLabel.textContent = lang === 'ar' ? 'EN' : 'AR';
   document.title = (lang === 'ar' ? 'الملاحي | El Mallahey' : 'El Mallahey | Logistics');
+
+  if (typeof validateAllFields === 'function') {
+    const hasVisibleErrors = Boolean(document.querySelector && document.querySelector('.is-invalid'));
+    validateAllFields(hasVisibleErrors);
+  }
+}
+
+// Contact Form handling & validation
+const contactForm = document.getElementById('contactForm');
+const emailInput = document.getElementById('em');
+const emailError = document.getElementById('emError');
+const nameInput = document.getElementById('nm');
+const nameError = document.getElementById('nmError');
+const typeSelect = document.getElementById('tp');
+const typeError = document.getElementById('tpError');
+const msgTextarea = document.getElementById('ms');
+const msgError = document.getElementById('msError');
+
+function getValidationMsg(key) {
+  const dict = translations[currentLang] || translations.ar;
+  return dict[key] || '';
+}
+
+function validateEmail(showError = false) {
+  if (!emailInput) return true;
+  const val = emailInput.value.trim();
+  let errorMsg = '';
+
+  if (!val) {
+    if (emailInput.required) {
+      errorMsg = getValidationMsg('val_email_req');
+    }
+  } else {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(val)) {
+      errorMsg = getValidationMsg('val_email_inv');
+    }
+  }
+
+  emailInput.setCustomValidity(errorMsg);
+
+  if (emailError) {
+    if (errorMsg && showError) {
+      emailError.textContent = errorMsg;
+      emailError.style.display = 'block';
+      emailInput.classList.add('is-invalid');
+    } else {
+      emailError.textContent = '';
+      emailError.style.display = 'none';
+      emailInput.classList.remove('is-invalid');
+    }
+  }
+
+  return !errorMsg;
+}
+
+function validateField(inputEl, errorEl, reqKey, showError = false) {
+  if (!inputEl) return true;
+  const val = inputEl.value.trim();
+  let errorMsg = '';
+  if (!val && inputEl.required) {
+    errorMsg = getValidationMsg(reqKey);
+  }
+  inputEl.setCustomValidity(errorMsg);
+  if (errorEl) {
+    if (errorMsg && showError) {
+      errorEl.textContent = errorMsg;
+      errorEl.style.display = 'block';
+      inputEl.classList.add('is-invalid');
+    } else {
+      errorEl.textContent = '';
+      errorEl.style.display = 'none';
+      inputEl.classList.remove('is-invalid');
+    }
+  }
+  return !errorMsg;
+}
+
+function validateAllFields(showErrors = false) {
+  const isNameValid = validateField(nameInput, nameError, 'val_name_req', showErrors);
+  const isEmailValid = validateEmail(showErrors);
+  const isTypeValid = validateField(typeSelect, typeError, 'val_type_req', showErrors);
+  const isMsgValid = validateField(msgTextarea, msgError, 'val_msg_req', showErrors);
+  return isNameValid && isEmailValid && isTypeValid && isMsgValid;
+}
+
+if (emailInput) {
+  emailInput.addEventListener('input', () => {
+    validateEmail(emailInput.classList.contains('is-invalid'));
+  });
+  emailInput.addEventListener('blur', () => {
+    if (emailInput.value.trim()) {
+      validateEmail(true);
+    }
+  });
+  emailInput.addEventListener('invalid', () => {
+    validateEmail(true);
+  });
+}
+
+if (nameInput) {
+  nameInput.addEventListener('input', () => validateField(nameInput, nameError, 'val_name_req', nameInput.classList.contains('is-invalid')));
+  nameInput.addEventListener('invalid', () => validateField(nameInput, nameError, 'val_name_req', true));
+}
+
+if (typeSelect) {
+  typeSelect.addEventListener('change', () => validateField(typeSelect, typeError, 'val_type_req', typeSelect.classList.contains('is-invalid')));
+  typeSelect.addEventListener('invalid', () => validateField(typeSelect, typeError, 'val_type_req', true));
+}
+
+if (msgTextarea) {
+  msgTextarea.addEventListener('input', () => validateField(msgTextarea, msgError, 'val_msg_req', msgTextarea.classList.contains('is-invalid')));
+  msgTextarea.addEventListener('invalid', () => validateField(msgTextarea, msgError, 'val_msg_req', true));
 }
 
 // Initialize language on page load
 applyLanguage(currentLang);
+validateAllFields(false);
 
 // Language switch event
 document.getElementById('lang').addEventListener('click', () => {
@@ -710,14 +838,21 @@ document.querySelectorAll('#links a').forEach(a => {
   a.addEventListener('click', () => linksEl && linksEl.classList.remove('open'));
 });
 
-// Contact Form handling
-const contactForm = document.getElementById('contactForm');
+// Contact Form submission
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
+    const isValid = validateAllFields(true);
+    if (!isValid) {
+      e.preventDefault();
+      const firstInvalid = contactForm.querySelector('.is-invalid, :invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
     e.preventDefault();
     const ok = document.getElementById('okMsg');
     if (ok) ok.style.display = 'block';
     contactForm.reset();
+    validateAllFields(false);
     setTimeout(() => {
       if (ok) ok.style.display = 'none';
     }, 6000);
