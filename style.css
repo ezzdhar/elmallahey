@@ -408,6 +408,11 @@ button { font: inherit; cursor: pointer; border: 0; background: none; }
   pointer-events: none;
   z-index: 1;
 }
+[dir="rtl"] .stats-bg-helm {
+  right: auto;
+  left: -20px;
+  transform: translateY(-50%) scaleX(-1);
+}
 .stats .wrap {
   position: relative;
   z-index: 2;

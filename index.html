@@ -139,11 +139,11 @@
     </div>
 
     <div class="stats-badge">
-      <img src="20+years.png" alt="20+ Years" class="stats-exp-img">
-      <div class="exp-sub">
+      <img src="20+years.png" alt="20+ Years" class="stats-exp-img" id="statsExpImg">
+      <!-- <div class="exp-sub">
         <span class="exp-years">20+ Years</span>
         <span class="exp-text" data-i18n="s_exp">of Experience</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </section>
@@ -501,10 +501,10 @@ const translations = {
     n_services: "خدماتنا",
     n_how: "آلية العمل",
     n_contact: "تواصل معنا",
-    t_log: "LOGISTICS",
-    t_sea: "SEA",
-    t_air: "AIR",
-    t_land: "LAND",
+    t_log: "اللوجستيات",
+    t_sea: "البحر",
+    t_air: "الجو",
+    t_land: "البر",
     h_title_html: 'نربط تجارتك <span class="text-orange">بالعالم</span>',
     h_text: "من خلال حلول شحن متكاملة عبر البحر والجوي والبر نضمن وصول بضائعك بأمان وكفاءة وفي الوقت المحدد",
     h_services: "استكشف خدماتنا",
@@ -518,7 +518,6 @@ const translations = {
     q_land_d: "للتوصيل داخل وخارج مصر",
     a_title_html: 'حلول شحن <span class="text-green">متكاملة</span>',
     a_text: "نقدم خدمات شحن احترافية تغطي جميع احتياجاتك اللوجيستية من الاستيراد والتصدير إلي التخزين والتوزيع",
-    s_exp: "of Experience",
     s_why: "سبب اختيارك للملاحي",
     s_fleet: "أسطول الحاويات",
     s_clients: "عملاء سعداء",
@@ -602,7 +601,6 @@ const translations = {
     q_land_d: "For delivery inside and outside Egypt",
     a_title_html: 'Comprehensive<br>shipping solutions',
     a_text: "We offer professional shipping services that cover all your logistics needs from import and export to storage and distribution.",
-    s_exp: "of Experience",
     s_why: "Reason for Choosing the Navigator",
     s_fleet: "Container Fleet",
     s_clients: "Happy Clients",
@@ -705,6 +703,12 @@ function applyLanguage(lang) {
 
   const aboutTitle = document.getElementById('aboutTitle');
   if (aboutTitle && dict.a_title_html) aboutTitle.innerHTML = dict.a_title_html;
+
+  const statsExpImg = document.getElementById('statsExpImg') || document.querySelector('.stats-exp-img');
+  if (statsExpImg) {
+    statsExpImg.src = lang === 'ar' ? '20+years-ar.png' : '20+years.png';
+    statsExpImg.alt = lang === 'ar' ? '20+ عاماً من الخبرة' : '20+ Years';
+  }
 
   const langLabel = document.getElementById('langLabel');
   if (langLabel) langLabel.textContent = lang === 'ar' ? 'EN' : 'AR';
