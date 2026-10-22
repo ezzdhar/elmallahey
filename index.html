@@ -336,20 +336,20 @@
         <p data-i18n="f_text">يرجى تعبئة النموذج أدناه وسنقوم بالتواصل معك في أقرب وقت ممكن.</p>
       </div>
 
-      <form id="contactForm">
+      <form id="contactForm" action="send-mail.php" method="POST" novalidate>
         <div class="f-group">
           <label for="nm" data-i18n="f_name">الاسم الكامل</label>
-          <input id="nm" required data-ph="f_name_p" placeholder="أدخل اسمك هنا">
+          <input id="nm" name="name" required data-ph="f_name_p" placeholder="أدخل اسمك هنا">
           <div class="f-error" id="nmError" role="alert"></div>
         </div>
         <div class="f-group">
           <label for="em" data-i18n="f_mail">البريد الإلكتروني</label>
-          <input id="em" type="email" required data-ph="f_mail_p" placeholder="أدخل بريدك الإلكتروني هنا" dir="auto">
+          <input id="em" name="email" type="email" required data-ph="f_mail_p" placeholder="أدخل بريدك الإلكتروني هنا" dir="auto">
           <div class="f-error" id="emError" role="alert"></div>
         </div>
         <div class="f-group">
           <label for="tp" data-i18n="f_subject">الموضوع</label>
-          <select id="tp" required>
+          <select id="tp" name="subject" required>
             <option value="" data-i18n="f_type">اختر نوع الاستفسار</option>
             <option data-i18n="c_sea">الشحن البحري</option>
             <option data-i18n="c_air">الشحن الجوي</option>
@@ -362,11 +362,15 @@
         </div>
         <div class="f-group">
           <label for="ms" data-i18n="f_msg">الرسالة</label>
-          <textarea id="ms" required data-ph="f_msg_p" placeholder="اكتب رسالتك هنا..."></textarea>
+          <textarea id="ms" name="message" required data-ph="f_msg_p" placeholder="اكتب رسالتك هنا..."></textarea>
           <div class="f-error" id="msError" role="alert"></div>
         </div>
-        <button class="btn btn-o btn-submit" type="submit" data-i18n="f_btn">إرسال الرسالة</button>
+        <button class="btn btn-o btn-submit" id="submitBtn" type="submit">
+          <span id="submitBtnText" data-i18n="f_btn">إرسال الرسالة</span>
+          <span class="btn-spinner" id="submitBtnSpinner" style="display:none;" aria-hidden="true"></span>
+        </button>
         <div class="ok" id="okMsg" role="status" data-i18n="f_ok">تم إرسال رسالتك بنجاح. سنتواصل معك قريبًا.</div>
+        <div class="form-server-error" id="errMsg" role="alert" style="display:none;"></div>
       </form>
     </div>
 
@@ -568,7 +572,9 @@ const translations = {
     f_msg: "الرسالة",
     f_msg_p: "اكتب رسالتك هنا...",
     f_btn: "إرسال الرسالة",
+    f_sending: "جاري الإرسال...",
     f_ok: "تم إرسال رسالتك بنجاح. سنتواصل معك قريبًا.",
+    f_err: "تعذر إرسال الرسالة في الوقت الحالي. يرجى المحاولة لاحقاً أو التواصل معنا عبر الهاتف أو الواتساب.",
     val_email_req: "يرجى إدخال البريد الإلكتروني.",
     val_email_inv: "يرجى إدخال بريد إلكتروني صالح (مثال: example@domain.com).",
     val_name_req: "يرجى إدخال الاسم الكامل.",
@@ -651,7 +657,9 @@ const translations = {
     f_msg: "Message",
     f_msg_p: "Write your message here...",
     f_btn: "Send Message",
+    f_sending: "Sending...",
     f_ok: "Your message has been sent successfully. We will contact you soon.",
+    f_err: "Could not send message right now. Please try again later or contact us via phone or WhatsApp.",
     val_email_req: "Please enter your email address.",
     val_email_inv: "Please enter a valid email address (e.g. example@domain.com).",
     val_name_req: "Please enter your full name.",
@@ -730,6 +738,11 @@ const typeSelect = document.getElementById('tp');
 const typeError = document.getElementById('tpError');
 const msgTextarea = document.getElementById('ms');
 const msgError = document.getElementById('msError');
+const submitBtn = document.getElementById('submitBtn');
+const submitBtnText = document.getElementById('submitBtnText');
+const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+const okMsg = document.getElementById('okMsg');
+const errMsg = document.getElementById('errMsg');
 
 function getValidationMsg(key) {
   const dict = translations[currentLang] || translations.ar;
@@ -850,22 +863,77 @@ document.querySelectorAll('#links a').forEach(a => {
 
 // Contact Form submission
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
     const isValid = validateAllFields(true);
     if (!isValid) {
-      e.preventDefault();
       const firstInvalid = contactForm.querySelector('.is-invalid, :invalid');
       if (firstInvalid) firstInvalid.focus();
       return;
     }
-    e.preventDefault();
-    const ok = document.getElementById('okMsg');
-    if (ok) ok.style.display = 'block';
-    contactForm.reset();
-    validateAllFields(false);
-    setTimeout(() => {
-      if (ok) ok.style.display = 'none';
-    }, 6000);
+
+    if (okMsg) okMsg.style.display = 'none';
+    if (errMsg) {
+      errMsg.style.display = 'none';
+      errMsg.textContent = '';
+    }
+
+    const dict = translations[currentLang] || translations.ar;
+
+    // Loading / sending state
+    if (submitBtn) submitBtn.disabled = true;
+    if (submitBtnSpinner) submitBtnSpinner.style.display = 'inline-block';
+    if (submitBtnText) submitBtnText.textContent = dict.f_sending || (currentLang === 'en' ? 'Sending...' : 'جاري الإرسال...');
+
+    const payload = {
+      name: nameInput ? nameInput.value.trim() : '',
+      email: emailInput ? emailInput.value.trim() : '',
+      subject: typeSelect ? typeSelect.value.trim() : '',
+      message: msgTextarea ? msgTextarea.value.trim() : '',
+      lang: currentLang
+    };
+
+    try {
+      const response = await fetch(contactForm.getAttribute('action') || 'send-mail.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (response.ok && result && result.success) {
+        if (okMsg) {
+          okMsg.textContent = result.message || dict.f_ok;
+          okMsg.style.display = 'block';
+        }
+        contactForm.reset();
+        validateAllFields(false);
+        setTimeout(() => {
+          if (okMsg) okMsg.style.display = 'none';
+        }, 7000);
+      } else {
+        const errorText = (result && result.message) || dict.f_err;
+        if (errMsg) {
+          errMsg.textContent = errorText;
+          errMsg.style.display = 'block';
+        }
+      }
+    } catch (err) {
+      console.error('Contact form submission error:', err);
+      if (errMsg) {
+        errMsg.textContent = dict.f_err;
+        errMsg.style.display = 'block';
+      }
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitBtnSpinner) submitBtnSpinner.style.display = 'none';
+      if (submitBtnText) submitBtnText.textContent = dict.f_btn || (currentLang === 'en' ? 'Send Message' : 'إرسال الرسالة');
+    }
   });
 }
 

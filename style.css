@@ -965,10 +965,30 @@ button { font: inherit; cursor: pointer; border: 0; background: none; }
   box-shadow: 0 4px 12px rgba(255, 103, 31, 0.2);
   transition: all 0.25s ease;
 }
-.btn-submit:hover {
+.btn-submit:hover:not(:disabled) {
   background: var(--orange-hover);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255, 103, 31, 0.35);
+}
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: btnSpin 0.8s linear infinite;
+  margin-inline-start: 8px;
+  vertical-align: middle;
+}
+@keyframes btnSpin {
+  to { transform: rotate(360deg); }
 }
 
 .f-error {
@@ -1146,6 +1166,16 @@ button { font: inherit; cursor: pointer; border: 0; background: none; }
   color: #0a6b30;
   font-weight: 700;
   text-align: center;
+}
+.form-server-error {
+  display: none;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 700;
+  text-align: center;
+  font-size: 14px;
 }
 
 /* FOOTER */
